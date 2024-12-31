@@ -1,0 +1,753 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Saif Maghrabi</title>
+    <link rel="website icon" type="png" href="images/ai-technology.png">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@100..900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif; /* الخط الافتراضي */
+            background-color: #0d1117;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            background: linear-gradient(120deg, #00c6ff, #0072ff, #00ff7f);
+            animation: gradientBackground 15s ease infinite;
+            background-size: 200% 200%;
+        }
+        @keyframes gradientBackground {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .floating-circles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            animation: float 20s infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0) translateX(0); }
+            50% { transform: translateY(-20px) translateX(20px); }
+            100% { transform: translateY(0) translateX(0); }
+        }
+        .scroll-container {
+            display: flex;
+            overflow: hidden;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+        }
+        .scroll-container::-webkit-scrollbar {
+            display: none;
+        }
+        .scroll-item {
+            flex: 0 0 100%;
+            scroll-snap-align: start;
+            transition: transform 0.5s ease;
+        }
+        .rtl {
+            direction: rtl; /* تغيير اتجاه النص إلى اليمين */
+            text-align: right; /* محاذاة النص إلى اليمين */
+        }
+        .arabic {
+            font-family: 'Noto Kufi Arabic', sans-serif; /* الخط العربي */
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+                transform: scale(1);
+            }
+            to {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+        }
+        .fade-in {
+            animation: fadeIn 0.5s forwards;
+        }
+        .fade-out {
+            animation: fadeOut 0.5s forwards;
+        }
+        .overlay-fade-in {
+            animation: overlayFadeIn 0.5s forwards;
+        }
+        .overlay-fade-out {
+            animation: overlayFadeOut 0.5s forwards;
+        }
+        @keyframes overlayFadeIn {
+            from {
+                background-color: rgba(0, 0, 0, 0);
+            }
+            to {
+                background-color: rgba(0, 0, 0, 0.75);
+            }
+        }
+        @keyframes overlayFadeOut {
+            from {
+                background-color: rgba(0, 0, 0, 0.75);
+            }
+            to {
+                background-color: rgba(0, 0, 0, 0);
+            }
+        }
+        .text-animation {
+            animation: textColorChange 10s infinite;
+        }
+        @keyframes textColorChange {
+            0%, 100% { color: #ffffff; }
+            25% { color: #ffffff; }
+            50% { color: #ffffff; }
+            75% { color: #ffffff; }
+        }
+        .education-content {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.6s, box-shadow 0.6s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            padding: 20px;
+        }
+        .education-content:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        .education-content .inner-content {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: opacity 0.6s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+        .education-content .details {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: left;
+            opacity: 0;
+            transition: opacity 0.6s;
+            padding: 1rem;
+            width: 100%;
+        }
+        .education-content:hover .details {
+            opacity: 1;
+        }
+        .education-content .background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.3;
+            transition: opacity 0.6s;
+            border-radius: 15px;
+        }
+        .education-content:hover .background {
+            opacity: 0.1;
+        }
+        .education-content .title {
+            transition: opacity 0.6s;
+        }
+        .education-content:hover .title {
+            opacity: 0;
+        }
+        @media (max-width: 768px) {
+            .education-content {
+                cursor: default;
+            }
+            .education-content.active .details {
+                opacity: 1;
+            }
+            .education-content.active .background {
+                opacity: 0.1;
+            }
+            .education-content.active .title {
+                opacity: 0;
+            }
+        }
+
+        .hidden-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: start;
+            background-color: rgba(31, 41, 55, 0.9); /* Tailwind's bg-gray-800 with opacity */
+            padding: 1rem;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            overflow-y: auto;
+        }
+        .project img {
+            transition: transform 0.3s ease-in-out;
+        }
+        .project img {
+            transform: none;
+        }
+        .project.active .hidden-content {
+            opacity: 1;
+        }
+        .project.active img {
+            transform: translateX(100%);
+        }
+        @media (max-width: 768px) {
+            .hidden-content {
+                position: static;
+                opacity: 0;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+            }
+            .project img {
+                transform: none;
+            }
+            .project.active .hidden-content {
+                max-height: 1000px; /* Adjust this value as needed */
+                opacity: 1;
+                transition: max-height 0.3s ease-in, opacity 0.3s ease-in;
+            }
+            .project.active img {
+                transform: none;
+            }
+        }
+        @media (min-width: 769px) {
+            .project:hover .hidden-content {
+                opacity: 1;
+            }
+            .project:hover img {
+                transform: translateX(100%);
+            }
+        }
+        .hidden-content h4, .hidden-content li, .hidden-content p {
+            color: white;
+        }
+
+        .header {
+    position: fixed; /* يجعل الهيدر ثابتًا ويتحرك مع الصفحة */
+    top: 0; /* يضعه في أعلى الصفحة */
+    left: 0; /* يضمن أن يبدأ من اليسار */
+    right: 0; /* يضمن أن ينتهي في اليمين */
+    z-index: 50; /* يضمن أن الهيدر فوق العناصر الأخرى */
+    background-color: white; /* لون خلفية الهيدر */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* إضافة ظل للهيدر */
+}
+
+.container {
+    padding-top: 100px; /* إضافة مسافة أعلى المحتوى بحيث لا يتداخل مع الهيدر */
+}
+
+.nav-link {
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            display: block;
+            margin-top: 5px;
+            right: 0;
+            background: #fff;
+            transition: width 0.4s ease;
+            -webkit-transition: width 0.4s ease;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+            left: 0;
+            background: #fff;
+        }
+
+        .header-animation {
+            background: linear-gradient(120deg, #004e92, #000428);
+            animation: gradientBackground 15s ease infinite;
+            background-size: 200% 200%;
+        }
+
+        .fade-out {
+            opacity: 0;
+            transition: opacity 0.5s ease-out;
+        }
+
+        .center {
+    text-align: center; /* محاذاة النص إلى المنتصف */
+}
+        
+.center-large-text {
+    text-align: center; /* محاذاة النص إلى المنتصف */
+    font-size: 1.25em; /* حجم الخط أصغر قليلاً */
+}
+
+.line-spacing {
+    line-height: 1.9; /* تباعد سطور أكبر من الطبيعي */
+    /* يمكنك تعديل القيمة حسب الحاجة */
+}
+
+
+
+        
+
+        
+    </style>
+</head>
+<body>
+    <div class="background-animation"></div>
+    <div class="floating-circles">
+        <div class="circle" style="width: 100px; height: 100px; top: 10%; left: 20%; animation-duration: 25s;"></div>
+        <div class="circle" style="width: 150px; height: 150px; top: 30%; left: 70%; animation-duration: 30s;"></div>
+        <div class="circle" style="width: 200px; height: 200px; top: 50%; left: 40%; animation-duration: 35s;"></div>
+        <div class="circle" style="width: 120px; height: 120px; top: 70%; left: 10%; animation-duration: 40s;"></div>
+        <div class="circle" style="width: 180px; height: 180px; top: 80%; left: 80%; animation-duration: 45s;"></div>
+    </div><a id="bg-1"></a>
+    <div class="container mx-auto p-6">
+        <header class="fixed top-0 left-0 right-0 z-50 header-animation bg-opacity-75 rounded-lg mx-auto mt-2 p-3 w-11/12 max-w-6xl flex justify-between items-center text-lg">
+            <h1 class="text-white font-bold text-xl">Saif Maghrabi</h1>
+            <div class="hidden md:flex space-x-4">
+                <a href="#bg-1" class="text-white nav-link">Home</a>
+                <a href="#bg-2" class="text-gray-200 nav-link">Education</a>
+                <a href="#bg-3" class="text-gray-200 nav-link">Job Titles</a>
+                <a href="#bg-4" class="text-gray-200 nav-link">Experiences</a>
+                <a href="#bg-5" class="text-gray-200 nav-link">Programming languages</a>
+            </div>
+            <button id="translate-button" class="hidden md:flex relative inline-flex items-center justify-center p-0.5 mb-2 ml-2 overflow-hidden text-sm font-medium text-white rounded-lg bg-gradient-to-br from-blue-400 to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800 shadow-2xl transform hover:rotate-12 transition-transform duration-300 text-base px-4 py-2">
+                <i class="fas fa-language text-base"></i>
+            </button>
+            <div class="md:hidden flex items-center">
+                <button id="menu-button" class="text-white focus:outline-none">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </header>
+        <nav id="mobile-menu" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-75 transition-opacity duration-500">
+            <div id="menu-content" class="p-6 header-animation w-64 rounded-lg shadow-lg">
+                <a href="#bg-1" class="block py-2 text-center text-white hover:text-blue-500 transition duration-300 nav-link">Home</a>
+                <a href="#bg-2" class="block py-2 text-center text-white hover:text-blue-500 transition duration-300 nav-link">Education</a>
+                <a href="#bg-3" class="block py-2 text-center text-white hover:text-blue-500 transition duration-300 nav-link">Job Titles</a>
+                <a href="#bg-4" class="block py-2 text-center text-white hover:text-blue-500 transition duration-300 nav-link">Experiences</a>
+                <a href="#bg-5" class="block py-2 text-center text-white hover:text-blue-500 transition duration-300 nav-link">Programming languages</a>
+                <button id="translate-button-mobile" class="relative inline-flex items-center justify-center p-0.5 mt-4 w-full overflow-hidden text-sm font-medium text-white rounded-lg bg-gradient-to-br from-blue-400 to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800 shadow-2xl transform hover:scale-110 transition-transform duration-300">
+                    <i class="fas fa-language text-base"></i>
+                </button>
+            </div>
+        </nav>
+    <br><br><br>
+        <div class="intro text-left my-10">
+            <h2 class="text-3xl text-animation">Welcome to my career page!</h2>
+        </div><a class="line-spacing">
+        <div class="profile flex flex-col my-10">
+            <div class="text-left">
+                <h3 class="text-xl" id="about-me-title">About Me</h3><br>
+                <p id="about-me-text">
+                    I am a web developer with extensive experience in front-end and back-end. In front-end, I focus on creating attractive and user-friendly user interfaces, while adhering to best practices in design and user experience. I work on improving the interaction between the user and the application to ensure a smooth and efficient experience.
+                    <span id="more-text" style="display:none;">
+                        <br><br>
+                        In back-end, I deal with the development of databases and data management systems, where I ensure performance stability and data reliability. I work on building robust services that support back-end operations, which contributes to enhancing the overall efficiency of the system.
+                        <br><br>
+                        I always strive to provide comprehensive solutions that meet the needs of clients, which contributes to achieving business goals effectively and enhancing the final user experience.
+                    </span>
+                </p><br>
+                <button id="toggle-button" onclick="toggleText()">Show More</button>
+            </div>
+        </div>
+        <br>
+        <div class="what-i-do-section my-10">
+            <div class="what-i-do-content flex flex-col md:flex-row justify-between items-center">
+                <div class="description  md:text-left md:w-1/2">
+                    <h2 class="text-2xl font-bold">What I do</h2>
+                    <p class="mt-4">As a web developer, I specialize in both back-end and front-end technologies. I build websites and applications, manage databases, and design user interfaces.</p>
+                </div>
+                <div class="cards flex flex-col md:flex-row justify-center items-center mt-6 md:mt-0 md:w-1/2">
+                    <div class="card bg-gray-800 p-6 rounded-lg text-center mx-2 my-2 md:my-0 w-full md:w-1/2">
+                        <i class="fas fa-code text-2xl mb-4"></i>
+                        <h3 class="center-large-text" class="text-xl font-bold">Web Development</h3>
+                        <p class="center" class="mt-2">Creating and maintaining websites and applications is what web developers do.</p>
+                    </div>
+                    <div class="card bg-gray-800 p-6 rounded-lg text-center mx-2 my-2 md:my-0 w-full md:w-1/2">
+                        <i class="fas fa-clipboard-list text-2xl mb-4"></i>
+                        <h3 class="center-large-text" class="text-xl font-bold">UI/UX Design</h3>
+                        <p class="center" class="mt-2">The process of improving visual elements to enhance a product's functionality and appeal.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a id="bg-2"></a>
+        <div class="container mx-auto px-4">
+            <div class="education-section my-10">
+             <div class="education-content bg-black p-6 rounded-lg text-center relative shadow-lg" style="height: 250px;" onclick="toggleContent(this)">
+              <img alt="Creative illustration of a programming student seen from behind, sitting at a desk with a laptop displaying code and various programming languages around" class="background" height="200" src="https://storage.googleapis.com/a1aa/image/Pzcy42KxXwYoOp1JYaT99gnVHrwtEJvXPlp4FSIHfABpoaeTA.jpg" width="800"/>
+              <div class="inner-content">
+               <h2 class="text-xl font-bold mb-4 title text-white">
+                Education
+               </h2>
+               <div class="details text-white">
+                <p class="text-lg mb-2">
+                 College of Telecomm and Information
+                </p>
+                <p class="text-lg">
+                 Diploma of Programming and Web Development Technology
+                </p>
+               </div>
+              </div>
+             </div>
+            </div>
+            <div class="education-section my-10">
+             <div class="education-content bg-black p-6 rounded-lg text-center relative shadow-lg" style="min-height: 600px;" onclick="toggleContent(this)">
+              <img alt="Creative illustration of a programming student seen from behind, sitting at a desk with a laptop displaying code and various programming languages around" class="background" height="200" src="https://storage.googleapis.com/a1aa/image/w9ENHfjo3BxjJCtg2vX5I9mf3DO5GwaYWvrJzHdQn9SVu27TA.jpg" width="800"/>
+              <div class="inner-content">
+               <h2 class="text-xl font-bold mb-4 title text-white">
+                Additional Courses
+               </h2>
+               <div class="details text-white">
+                <p class="text-lg mb-2">
+                 Big Data
+                </p>
+                <p class="text-lg mb-2">
+                 Data Science &amp; Machine Learning
+                </p>
+                <p class="text-lg mb-2">
+                 Web Application Development
+                </p>
+                <p class="text-lg mb-2">
+                 Data Science in Our World
+                </p>
+                <p class="text-lg mb-2">
+                 Introduction to Data Concepts
+                </p>
+                <p class="text-lg mb-2">
+                 Overview of Data Tools and Languages
+                </p>
+                <p class="text-lg mb-2">
+                 Project Based Learning Programme in Data Analysis
+                </p>
+                <p class="text-lg mb-2">
+                 Clean, Refine, and Visualize Data with IBM Watson Studio
+                </p>
+                <p class="text-lg">
+                 Your Future in Data: The Job Landscape
+                </p>
+               </div>
+              </div>
+             </div><a id="bg-3"></a>
+            </div>
+           </div>
+
+        <br><br>
+        
+        <div class="container mx-auto p-4">
+            <h1 class="text-center text-4xl font-bold text-white mb-8 relative z-10">
+                Job Titles
+            </h1>
+            <div class="flex justify-center relative z-10 space-x-2 flex-wrap">
+                <div class="m-2 p-4 text-sm text-white relative flex-shrink-0">
+                    Web Development
+                    <div class="w-full h-1 bg-white mt-1"></div>
+                </div>
+                <div class="m-2 p-4 text-sm text-white relative flex-shrink-0">
+                    Front-End Development
+                    <div class="w-full h-1 bg-white mt-1"></div>
+                </div>
+                <div class="m-2 p-4 text-sm text-white relative flex-shrink-0">
+                    Back-End Development
+                    <div class="w-full h-1 bg-white mt-1"></div>
+                </div>
+                <div class="m-2 p-4 text-sm text-white relative flex-shrink-0">
+                    SQL Database Management
+                    <div class="w-full h-1 bg-white mt-1"></div>
+                </div>
+                <div class="m-2 p-4 text-sm text-white relative flex-shrink-0">
+                    Database Development
+                    <div class="w-full h-1 bg-white mt-1"></div>
+                </div>
+                <div class="m-2 p-4 text-sm text-white relative flex-shrink-0">
+                    Database Administrator
+                    <div class="w-full h-1 bg-white mt-1"></div>
+                </div>
+            </div>
+        </div>
+        <a id="bg-4"><br><br><br>
+        </a>
+        <div class="container mx-auto p-6">
+            <h1 class="text-3xl font-bold mb-6">Professional experience</h1>
+            <div class="space-y-6">
+                  <!-- Project 1 -->
+   <div class="project flex flex-col md:flex-row bg-gray-800 p-8 rounded-lg mb-8 relative">
+    <div class="relative md:w-1/2">
+     <img class="rounded-lg w-full h-80 md:h-96" height="400" src="https://storage.googleapis.com/a1aa/image/XZvxtrrxxUb8EtuOPSXboc7zSxR6fhrvmts6qr55Wf8m548TA.jpg" width="600"/>
+     <div class="hidden-content md:absolute md:top-0 md:left-0 md:w-full md:h-full md:flex md:flex-col md:justify-center md:items-start md:bg-gray-800 md:bg-opacity-90 md:p-4 md:opacity-0 md:transition-opacity md:duration-500">
+      <ul class="list-disc list-inside mt-2">
+        <h4 class="text-lg font-semibold">
+            Project Responsibilities :
+           </h4><br>
+       <li>
+        Identify the main objectives and requirements of the project.
+       </li>
+       <li>
+        Develop an algorithm to outline and structure project needs.
+       </li>
+       <li>
+        Design the website and application prototypes and present them to stakeholders for approval.
+       </li>
+       <li>
+        Execute the project plan and begin implementation according to the approved design.
+       </li>
+       <li>
+        Conduct rigorous testing of the website and application to ensure functionality and quality.
+       </li>
+       <li>
+        Present the completed project to stakeholders and document feedback for improvements.
+       </li>
+       <li>
+        Apply necessary modifications and deliver the final version of the project to stakeholders.
+       </li>
+      </ul>
+     </div>
+    </div>
+    <div class="md:w-1/2 md:pl-6 mt-4 md:mt-0 flex flex-col justify-center items-center text-center">
+     <h3 class="text-2xl font-bold items-center text-center">
+      Haraj Information Technology Foundation
+     </h3>
+     <h2 class="text-sm text-gray-400">
+      Cooperative training | Web Development
+     </h2>
+    </div>
+   </div>
+   <!-- Project 2 -->
+   <div class="project flex flex-col md:flex-row bg-gray-800 p-8 rounded-lg relative">
+    <div class="relative md:w-1/2">
+     <img class="rounded-lg w-full h-80 md:h-96" height="400" src="https://storage.googleapis.com/a1aa/image/TlLixePiAhS4cSFBIR3IgCWaLfJfeJFehWMMDahvZUsfjOOfJA.jpg" width="600"/>
+     <div class="hidden-content md:absolute md:top-0 md:left-0 md:w-full md:h-full md:flex md:flex-col md:justify-center md:items-start md:bg-gray-800 md:bg-opacity-90 md:p-4 md:opacity-0 md:transition-opacity md:duration-500">
+
+      <ul class="list-disc list-inside mt-2">
+        <h4 class="text-lg font-semibold">
+            Skills Acquired :
+           </h4><br>
+       <li>
+        Customer Service: Providing strong services to meet customer needs and increase customer satisfaction.
+       </li>
+       <li>
+        Analytical Thinking: Developing my problem analysis and problem solving skills.
+       </li>
+       <li>
+        Management: Learning how to deal with rapid response and diversity.
+       </li>
+       <li>
+        Leadership and Guidance: Requires the skill of motivating the team and guiding them towards achieving goals effectively.
+       </li>
+       <li>
+        Under Pressure: Improving my ability to manage time and is represented in many difficult circumstances.
+       </li>
+       <p></p>
+      </ul>
+     </div>
+    </div>
+    <div class="md:w-1/2 md:pl-6 mt-4 md:mt-0 flex flex-col justify-center items-center text-center">
+     <h3 class="text-2xl font-bold">
+      Marble Restaurant
+     </h3>
+     <h2 class="text-sm text-gray-400">
+      Full-time | Coordinator
+     </h2>
+    </div>
+   </div><a id="bg-5"></a><br>
+  </div><br><br>
+        <div class="code-snippet my-10">
+            <h3 class="section-title text-2xl font-bold mb-6">Technologies and Programming Languages I Work With</h3>
+            <div class="scroll-container" id="scroll-container">
+                <!-- Card 1 -->
+                <div class="scroll-item bg-gradient-to-r from-teal-400 to-blue-500 p-6 rounded-lg hover:from-teal-500 hover:to-blue-600 transition duration-300">
+                    <h2 class="text-xl font-semibold mb-4">Front-End Technologies for Applications</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="bg-[#1E293B] p-4 rounded-md flex items-center">
+                            <img alt="Dart Icon" class="w-8 h-8 mr-2 rounded-md" height="32" src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Dart-logo.png" width="32"/>
+                            <span>Dart</span>
+                        </div>
+                        <div class="bg-[#1E293B] p-4 rounded-md flex items-center">
+                            <img alt="Flutter Icon" class="w-8 h-8 mr-2 rounded-md" height="32" src="https://upload.wikimedia.org/wikipedia/commons/1/17/Google-flutter-logo.png" width="32"/>
+                            <span>Flutter</span>
+                        </div>
+                        <div class="bg-[#1E293B] p-4 rounded-md flex items-center">
+                            <img alt="React Native Icon" class="w-8 h-8 mr-2 rounded-md" height="32" src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" width="32"/>
+                            <span>React Native</span>
+                        </div>
+                        <div class="bg-[#1E293B] p-4 rounded-md flex items-center">
+                            <img alt="Ionic Icon" class="w-8 h-8 mr-2 rounded-md" height="32" src="https://upload.wikimedia.org/wikipedia/commons/d/d1/Ionic_Logo.svg" width="32"/>
+                            <span>Ionic</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 2 -->
+                <div class="scroll-item bg-gradient-to-r from-purple-400 to-pink-500 p-6 rounded-lg hover:from-purple-500 hover:to-pink-600 transition duration-300">
+                    <h2 class="text-xl font-semibold mb-4">Front-End Technologies for Websites</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="bg-[#1E293B] p-4 rounded-md flex items-center">
+                            <img alt="HTML Icon" class="w-8 h-8 mr-2 rounded-md" height="32" src="https://upload.wikimedia.org/wikipedia/commons/6/61/HTML5_logo_and_wordmark.svg" width="32"/>
+                            <span>HTML</span>
+                        </div>
+                        <div class="bg-[#1E293B] p-4 rounded-md flex items-center">
+                            <img alt="CSS Icon" class="w-8 h-8 mr-2 rounded-md" height="32" src="https://upload.wikimedia.org/wikipedia/commons/d/d5/CSS3_logo_and_wordmark.svg" width="32"/>
+                            <span>CSS</span>
+                        </div>
+                        <div class="bg-[#1E293B] p-4 rounded-md flex items-center">
+                            <img alt="JavaScript Icon" class="w-8 h-8 mr-2 rounded-md" height="32" src="https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png" width="32"/>
+                            <span>JavaScript</span>
+                        </div>
+                        <div class="bg-[#1E293B] p-4 rounded-md flex items-center">
+                            <img alt="React.js Icon" class="w-8 h-8 mr-2 rounded-md" height="32" src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" width="32"/>
+                            <span>React.js</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 3 -->
+                <div class="scroll-item bg-gradient-to-r from-yellow-400 to-red-500 p-6 rounded-lg hover:from-yellow-500 hover:to-red-600 transition duration-300">
+                    <h2 class="text-xl font-semibold mb-4">Back-End Technologies for Applications</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="bg-[#1E293B] p-4 rounded-md flex items-center">
+                            <img alt="Node.js Icon" class="w-8 h-8 mr-2 rounded-md" height="32" src="https://upload.wikimedia.org/wikipedia/commons/d/d9/Node.js_logo.svg" width="32"/>
+                            <span>Node.js</span>
+                        </div>
+                        <div class="bg-[#1E293B] p-4 rounded-md flex items-center">
+                            <img alt="Express.js Icon" class="w-8 h-8 mr-2 rounded-md" height="32" src="https://upload.wikimedia.org/wikipedia/commons/6/64/Expressjs.png" width="32"/>
+                            <span>Express.js</span>
+                        </div>
+                        <div class="bg-[#1E293B] p-4 rounded-md flex items-center">
+                            <img alt="Python Icon" class="w-8 h-8 mr-2 rounded-md" height="32" src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg" width="32"/>
+                            <span>Python</span>
+                        </div>
+                        <div class="bg-[#1E293B] p-4 rounded-md flex items-center">
+                            <img alt="Ruby on Rails Icon" class="w-8 h-8 mr-2 rounded-md" height="32" src="https://upload.wikimedia.org/wikipedia/commons/6/62/Ruby_On_Rails_Logo.svg" width="32"/>
+                            <span>Ruby on Rails</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 4 -->
+                <div class="scroll-item bg-gradient-to-r from-teal-400 to-cyan-500 p-6 rounded-lg hover:from-teal-500 hover:to-cyan-600 transition duration-300">
+                    <h2 class="text-xl font-semibold mb-4">Back-End Technologies for Websites</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="bg-[#1E293B] p-4 rounded-md flex items-center">
+                            <img alt="PHP Icon" class="w-8 h-8 mr-2 rounded-md" height="32" src="https://upload.wikimedia.org/wikipedia/commons/2/27/PHP-logo.svg" width="32"/>
+                            <span>PHP</span>
+                        </div>
+                        <div class="bg-[#1E293B] p-4 rounded-md flex items-center">
+                            <img alt="Java Icon" class="w-8 h-8 mr-2 rounded-md" height="32" src="https://upload.wikimedia.org/wikipedia/en/3/30/Java_programming_language_logo.svg" width="32"/>
+                            <span>Java</span>
+                        </div>
+                        <div class="bg-[#1E293B] p-4 rounded-md flex items-center">
+                            <img alt="C# Icon" class="w-8 h-8 mr-2 rounded-md" height="32" src="https://upload.wikimedia.org/wikipedia/commons/4/4f/Csharp_Logo.png" width="32"/>
+                            <span>C#</span>
+                        </div>
+                        <div class="bg-[#1E293B] p-4 rounded-md flex items-center">
+                            <img alt="Go Icon" class="w-8 h-8 mr-2 rounded-md" height="32" src="https://upload.wikimedia.org/wikipedia/commons/0/05/Go_Logo_Blue.svg" width="32"/>
+                            <span>Go</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 5 -->
+                <div class="scroll-item bg-gradient-to-r from-indigo-400 to-purple-500 p-6 rounded-lg hover:from-teal-500 hover:to-cyan-600 transition duration-300">
+                    <h2 class="text-xl font-semibold mb-4">Databases</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="bg-[#1E293B] p-4 rounded-md flex items-center">
+                            <img alt="MySQL Icon" class="w-8 h-8 mr-2 rounded-md" height="32" src="https://upload.wikimedia.org/wikipedia/commons/0/0a/MySQL_textlogo.svg" width="32"/>
+                            <span>MySQL</span>
+                        </div>
+                        <div class="bg-[#1E293B] p-4 rounded-md flex items-center">
+                            <img alt="PostgreSQL Icon" class="w-8 h-8 mr-2 rounded-md" height="32" src="https://upload.wikimedia.org/wikipedia/commons/2/29/Postgresql_elephant.svg" width="32"/>
+                            <span>PostgreSQL</span>
+                        </div>
+                        <div class="bg-[#1E293B] p-4 rounded-md flex items-center">
+                            <img alt="MongoDB Icon" class="w-8 h-8 mr-2 rounded-md" height="32" src="https://upload.wikimedia.org/wikipedia/commons/9/93/MongoDB_Logo.svg" width="32"/>
+                            <span>MongoDB</span>
+                        </div>
+                        <div class="bg-[#1E293B] p-4 rounded-md flex items-center">
+                            <img alt="SQLite Icon" class="w-8 h-8 mr-2 rounded-md" height="32" src="https://upload.wikimedia.org/wikipedia/commons/9/97/Sqlite-square-icon.svg" width="32"/>
+                            <span>SQLite</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div></a>
+   </main>
+  </div> 
+
+  <footer class="footer header-animation text-white p-2">
+    <div class="container mx-auto text-center">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+            <div class="order-1 md:order-2 mb-4 md:mb-0 text-center md:text-left">
+                <p class="text-lg">To learn more about my career, visit my 
+                    <a href="https://www.linkedin.com/in/saifmaghrabi/" class="text-blue-400 font-semibold hover:text-blue-600 transition duration-300">
+                        LinkedIn
+                    </a> profile.
+                </p>
+            </div>
+            <div class="mb-4 md:mb-0 order-2 md:order-1 text-center md:text-left">
+                <div class="mb-4">
+                    <p class="text-lg">For Contact :</p>
+                </div>
+                <div class="mb-2">
+                    <p class="text-lg"><i class="fas fa-phone-alt mr-2"></i>Phone Number : <span class="font-semibold"> +966 531218121</span></p>
+                </div>
+                <div>
+                    <p class="text-lg"><i class="fas fa-envelope mr-2"></i>Email : <span class="font-semibold"> viiivz45@gmail.com</span></p>
+                </div>
+            </div>
+        </div><br>
+        <div class="text-center mt-4">
+            <p class="text-xs">My Website © 2024 All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+ 
+  <script src="autoScroll.js"></script>
+ </body>
+</html>
+
+
